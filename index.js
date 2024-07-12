@@ -41,8 +41,12 @@ app.post('/admin/customers', async (req, res) => {
 app.put('/admin/customers/:id', async (req, res) => {
     try {
 
-
-        const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const mobileNo = req.params.id;
+        const existingCustomer = await Customer.findOne({ mobileNumber: mobileNo });
+        if (!existingCustomer) {
+            return res.status(404).send("Customer with this mobile number does not exists");
+        }
+        const customer = await Customer.findOneAndUpdate({ mobileNumber: mobileNo }, req.body)
         res.send(customer);
     } catch (error) {
         res.status(400).send(error.message);
