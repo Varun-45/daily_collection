@@ -1,12 +1,4 @@
 const mongoose = require('mongoose');
-
-const customerSchema = new mongoose.Schema({
-    name: String,
-    mobileNumber: String,
-
-    loans: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Loan' }]
-});
-
 const loanSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
 
@@ -18,6 +10,14 @@ const loanSchema = new mongoose.Schema({
     endDate: Date,
     isActive: { type: Boolean, default: true }
 });
+const customerSchema = new mongoose.Schema({
+    name: String,
+    mobileNumber: String,
+
+    loans: [loanSchema]
+});
+
+
 
 const collectionSchema = new mongoose.Schema({
     loan: { type: mongoose.Schema.Types.ObjectId, ref: 'Loan' },
