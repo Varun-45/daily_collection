@@ -178,9 +178,23 @@ app.get('/reports/general', async (req, res) => {
             { $group: { _id: null, total: { $sum: "$dailyCollectable" } } }
         ]);
         const dailyCollections = await Collection.aggregate([
-            { $match: { date: { $gte: new Date().setHours(0, 0, 0, 0) } } },
-            { $group: { _id: null, total: { $sum: "$amount" } } }
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                        $lt: new Date(new Date().setHours(24, 0, 0, 0))
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: "$amount" }
+                }
+            }
         ]);
+
+        console.log(dailyCollections)
         const defaulters = await Loan.find({
             endDate: { $lt: new Date() },
             isActive: true
