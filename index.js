@@ -40,13 +40,8 @@ app.post('/admin/customers', async (req, res) => {
 // Edit a customer record
 app.put('/admin/customers/:id', async (req, res) => {
     try {
-        const { mobileNumber } = req.body;
 
 
-        const existingCustomer = await Customer.findOne({ mobileNumber });
-        if (existingCustomer) {
-            return res.status(400).send("Customer with this mobile number already exists");
-        }
         const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.send(customer);
     } catch (error) {
@@ -92,10 +87,10 @@ app.post('/admin/collections/:loanid', async (req, res) => {
     try {
         const loanId = req.params.loanid;
         const { amount, isActive } = req.body;
-
+        console.log(loanId)
         let loan;
         if (loanId) {
-            loan = await Loan.findOne({ loanId: Loan._id });
+            loan = await Loan.findById(loanId);
         }
         if (!loan) {
             return res.status(404).send('Loan not found');
@@ -135,7 +130,7 @@ app.post('/agent/collections/:loanid', async (req, res) => {
 
         let loan;
         if (loanId) {
-            loan = await Loan.findOne({ loanId: Loan._id });
+            loan = await Loan.findById(loanId);
         }
 
         if (!loan) {
