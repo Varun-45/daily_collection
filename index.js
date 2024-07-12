@@ -40,6 +40,13 @@ app.post('/admin/customers', async (req, res) => {
 // Edit a customer record
 app.put('/admin/customers/:id', async (req, res) => {
     try {
+        const { mobileNumber } = req.body;
+
+
+        const existingCustomer = await Customer.findOne({ mobileNumber });
+        if (existingCustomer) {
+            return res.status(400).send("Customer with this mobile number already exists");
+        }
         const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.send(customer);
     } catch (error) {
