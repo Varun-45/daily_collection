@@ -107,6 +107,20 @@ app.post('/admin/collections/:loanid', async (req, res) => {
         loan.collectedAmount += amount;
         loan.isActive = isActive;
         await loan.save();
+        const customer = await Customer.findOneAndUpdate(
+            { 'loans._id': loan._id },
+            {
+                $set: {
+                    'loans.$.collectedAmount': loan.collectedAmount,
+                    'loans.$.isActive': loan.isActive
+                }
+            },
+            { new: true }
+        );
+
+        if (!customer) {
+            return res.status(404).send('Customer not found');
+        }
 
         res.send(collection);
     } catch (error) {
@@ -134,6 +148,20 @@ app.post('/agent/collections/:loanid', async (req, res) => {
         loan.collectedAmount += amount;
         loan.isActive = isActive;
         await loan.save();
+        const customer = await Customer.findOneAndUpdate(
+            { 'loans._id': loan._id },
+            {
+                $set: {
+                    'loans.$.collectedAmount': loan.collectedAmount,
+                    'loans.$.isActive': loan.isActive
+                }
+            },
+            { new: true }
+        );
+
+        if (!customer) {
+            return res.status(404).send('Customer not found');
+        }
 
 
         res.send(collection);
