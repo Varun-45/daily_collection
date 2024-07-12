@@ -1,0 +1,108 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "daily_collection",
+    "collectionId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+    "dateExported": "2024-07-11T16:02:17.397Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "8f161f86-63a7-468f-9dee-d767667bb5bd",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "Create_Customer",
+            "url": "https://daily-collection.onrender.com/admin/customers",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-07-11T14:02:29.035Z",
+            "modified": "2024-07-11T16:00:33.309Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"John Doe\",\n  \"mobileNumber\": \"1234567890\",\n  \"customerId\": \"CUST001\"\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "1e2db16a-b2b9-46ee-a726-dbdf5c4a3626",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "Edit_customer",
+            "url": "https://daily-collection.onrender.com/admin/customers/668fe79a98cb226eba584557",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2024-07-11T14:04:46.253Z",
+            "modified": "2024-07-11T16:00:43.242Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"mobileNumber\": \"0987654321\"\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "71abdac5-c43c-4e7d-9dd9-a450bf9bf05e",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "Allot_loan",
+            "url": "https://daily-collection.onrender.com/admin/loans",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-07-11T14:06:43.807Z",
+            "modified": "2024-07-11T16:00:53.336Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"customer\": \"668fe79a98cb226eba584557\",\n  \"amount\": 1000,\n  \"duration\": 10,\n  \"dailyCollectable\": 100,\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-01-10\"\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "77260272-9365-497d-aaca-bee6302e0734",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "Admin_daily_collection",
+            "url": "https://daily-collection.onrender.com/admin/collections",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-07-11T14:12:23.140Z",
+            "modified": "2024-07-11T16:01:04.273Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"amount\": 100,\n  \"isActive\": true\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "8d1cbfb9-d2b7-4fa7-8b76-90b332350a83",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "Agennt_Daily_collection",
+            "url": "https://daily-collection.onrender.com/agent/collections",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-07-11T14:24:14.421Z",
+            "modified": "2024-07-11T16:01:18.759Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"amount\": 100,\n  \"isActive\": true\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "23adf31b-09a4-4cd1-9219-ca1b655d613e",
+            "colId": "124db75d-7fd2-435c-9bef-5f9c9bd9890d",
+            "containerId": "",
+            "name": "General_report",
+            "url": "https://daily-collection.onrender.com/reports/general",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-07-11T14:29:08.421Z",
+            "modified": "2024-07-11T16:01:27.192Z",
+            "headers": []
+        }
+    ],
+    "ref": "lUj6CFlMPHPFnVEWowjXNWDmsuxbAKZO94lI0GwgsxLOu97eRuKsOwVBHwa2drBJIGYGoTD8TLWY3-UP6E8StQ"
+}

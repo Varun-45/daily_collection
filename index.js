@@ -10,13 +10,28 @@ app.use(bodyParser.json());
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-
+app.get('/admin/customers', async (req, res) => {
+    try {
+        const customers = await Customer.find({});
+        res.status(200).json(customers);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 // Create a new customer
 app.post('/admin/customers', async (req, res) => {
     try {
+        const { mobileNumber } = req.body;
+
+        // Check if a customer with the same mobile number already exists
+        const existingCustomer = await Customer.findOne({ mobileNumber });
+        if (existingCustomer) {
+            return res.status(400).send("Customer with this mobile number already exists");
+        }
+
         const customer = new Customer(req.body);
         await customer.save();
-        res.send(customer);
+        res.status(201).send(customer);
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -35,36 +50,46 @@ app.put('/admin/customers/:id', async (req, res) => {
 // Allot a new loan to a customer
 app.post('/admin/loans', async (req, res) => {
     try {
-        const loan = new Loan(req.body);
+        const { mobileNumber, loanId, amount, duration, dailyCollectable, startDate, endDate } = req.body;
+        const customer = await Customer.findOne({ mobileNumber });
+
+        if (!customer) {
+            res.status(404).send("Customer not found");
+            return;
+        }
+
+        const loan = new Loan({
+            customer: customer._id,
+            loanId,
+            amount,
+            duration,
+            dailyCollectable,
+            startDate,
+            endDate
+        });
+
         await loan.save();
-        const customer = await Customer.findById(req.body.customer);
+
         customer.loans.push(loan._id);
         await customer.save();
-        res.send(loan);
+
+        res.status(201).send(loan);
     } catch (error) {
         res.status(400).send(error.message);
     }
 });
 
 
+
 app.post('/admin/collections', async (req, res) => {
     try {
-        const { mobileNumber, name, customerId, loanId, amount, isActive } = req.body;
+        const loanId = req.params.loanid;
+        const { amount, isActive } = req.body;
 
         let loan;
         if (loanId) {
             loan = await Loan.findOne({ loanId: Loan._id });
-        } else if (customerId) {
-            const customer = await Customer.findOne({ customerId: Customer._id });
-            loan = await Loan.findOne({ customer: customer, isActive: true });
-        } else if (mobileNumber) {
-            const customer = await Customer.findOne({ mobileNumber });
-            loan = await Loan.findOne({ customer: customer._id, isActive: true });
-        } else if (name) {
-            const customer = await Customer.findOne({ name });
-            loan = await Loan.findOne({ customer: customer._id, isActive: true });
         }
-
         if (!loan) {
             return res.status(404).send('Loan not found');
         }
@@ -84,20 +109,12 @@ app.post('/admin/collections', async (req, res) => {
 
 app.post('/agent/collections', async (req, res) => {
     try {
-        const { mobileNumber, name, customerId, loanId, amount, isActive } = req.body;
+        const loanId = req.params.loanid;
+        const { amount, isActive } = req.body;
 
         let loan;
         if (loanId) {
             loan = await Loan.findOne({ loanId: Loan._id });
-        } else if (customerId) {
-            const customer = await Customer.findOne({ customerId: Customer._id });
-            loan = await Loan.findOne({ customer: customer._id, isActive: true });
-        } else if (mobileNumber) {
-            const customer = await Customer.findOne({ mobileNumber });
-            loan = await Loan.findOne({ customer: customer._id, isActive: true });
-        } else if (name) {
-            const customer = await Customer.findOne({ name });
-            loan = await Loan.findOne({ customer: customer._id, isActive: true });
         }
 
         if (!loan) {
