@@ -81,7 +81,7 @@ app.post('/admin/loans', async (req, res) => {
 
 
 
-app.post('/admin/collections', async (req, res) => {
+app.post('/admin/collections/:loanid', async (req, res) => {
     try {
         const loanId = req.params.loanid;
         const { amount, isActive } = req.body;
@@ -107,7 +107,7 @@ app.post('/admin/collections', async (req, res) => {
     }
 });
 
-app.post('/agent/collections', async (req, res) => {
+app.post('/agent/collections/:loanid', async (req, res) => {
     try {
         const loanId = req.params.loanid;
         const { amount, isActive } = req.body;
