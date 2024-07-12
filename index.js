@@ -77,7 +77,7 @@ app.post('/admin/loans', async (req, res) => {
 
         await loan.save();
 
-        customer.loans.push(loan._id);
+        customer.loans.push(loan);
         await customer.save();
 
         res.status(201).send(loan);
